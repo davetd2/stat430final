@@ -12,26 +12,43 @@ library(shinythemes)
 library(Lahman)
 
 # Define UI for application that draws a histogram
-fluidPage(theme = shinytheme("cerulean"),
-          verticalLayout(
-          sidebarPanel(h3("Player(s):"),
-                       textInput("player", "If multiple players are desired, separate players with [comma + space]", "ex: 'Mark McGwire, Sammy Sosa'"),
-                       radioButtons("bp", label = "Batter or pitcher?", choices = c("batting", "pitching")),
-                       actionButton("do", "Search")
-          ),
-          sidebarPanel(h3("Player(s):"),
-                       selectInput("playersfound", label = "plauyers found:", choices = c("NA", "NA")),
-                       selectInput("yearchosen", label = "season:", choices = c("NA", "NA")),
-          ),
-          
-          ),
-          mainPanel(
-          tabsetPanel(tabPanel("tab1", "contents1"),
-                      tabPanel("tab2", "contents2")),
-          ),
 
-    # Application title
+fluidPage(
+  theme = shinytheme("cerulean"),
+  sidebarLayout(
+    sidebarPanel(
+    verticalLayout(
+      h3("Player(s):"),
+      textInput(
+        "player",
+        "If multiple players are desired, separate players with [comma + space]",
+        "ex: 'Mark McGwire, Sammy Sosa'"
+      ),
+      radioButtons(
+        "bp",
+        label = "Batter or pitcher?",
+        choices = c("batting", "pitching")
+      ),
+    ),
+    h3("Player(s):"),
+              selectInput("playersfound", label = "players found:", choices = c("NA", "NA")),
+              selectInput("yearchosen", label = "season:", choices = c("NA", "NA")),
+    fluidRow(
+      actionButton("do", "Graph"),
+      actionButton("clear", "reset"),
+    ),
+    ),
     
-
-    # Sidebar with a slider input for number of bins
+    mainPanel(tabsetPanel(
+      tabPanel("tab1", "contents1"),
+      tabPanel("tab2", "contents2")
+    ),
+    ),
+    ),
+    
 )
+  
+  # Application title
+  
+  
+  # Sidebar with a slider input for number of bins
