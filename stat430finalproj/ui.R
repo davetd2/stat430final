@@ -10,6 +10,7 @@
 library(shiny)
 library(shinythemes)
 library(Lahman)
+#source("helper.R")
 
 # Define UI for application that draws a histogram
 
@@ -17,38 +18,35 @@ fluidPage(
   theme = shinytheme("cerulean"),
   sidebarLayout(
     sidebarPanel(
-    verticalLayout(
+      verticalLayout(
+        h3("Player(s):"),
+        textInput(
+          "player",
+          "Type a player ",
+          placeholder = "ex: 'Rodriguez'"
+        ),
+        radioButtons(
+          "bp",
+          label = "Batter or pitcher?",
+          choices = c("batting", "pitching")
+        ),
+      ),
       h3("Player(s):"),
-      textInput(
-        "player",
-        "If multiple players are desired, separate players with [comma + space]",
-        "ex: 'Mark McGwire, Sammy Sosa'"
+      selectInput("playersfound", label = "players found:", choices = c(NULL)),
+      selectInput("yearchosen", label = "season:", choices = NULL),
+      fluidRow(
+        actionButton("do", "Graph"),
+        actionButton("clear", "reset"),
       ),
-      radioButtons(
-        "bp",
-        label = "Batter or pitcher?",
-        choices = c("batting", "pitching")
-      ),
-    ),
-    h3("Player(s):"),
-              selectInput("playersfound", label = "players found:", choices = c("NA", "NA")),
-              selectInput("yearchosen", label = "season:", choices = c("NA", "NA")),
-    fluidRow(
-      actionButton("do", "Graph"),
-      actionButton("clear", "reset"),
-    ),
     ),
     
     mainPanel(tabsetPanel(
-      tabPanel("tab1", "contents1"),
-      tabPanel("tab2", "contents2")
+      tabPanel("similarity score", "This page graphs the similarity scores of the selected player and the 10 most similar players based on the chosen season",
+               mainPanel(plotOutput("simplot"),)),
+      tabPanel("WAR", "This page graphs the career WAR trajectories of the selected player and the three most similar players based on similarity score",
+               mainPanel(plotOutput("warplot")))
     ),
     ),
-    ),
-    
+  ),
+  
 )
-  
-  # Application title
-  
-  
-  # Sidebar with a slider input for number of bins
