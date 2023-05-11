@@ -170,3 +170,17 @@ simchartdata <- function(p1, num, df1) {
     return(dat)
   }
 }
+
+getPYID <- function(namer, szns) {
+  res <- batting %>% filter(name == namer & szn == szns) 
+  res$playerID
+}
+
+#Batting %>% filter(playerID == getPYID("Hank Aaron", 2))
+#battersimscore(getPYID("Hank Aaron", 2), 2)
+input = data.frame(playersfound = "Hank Aaron",
+                   yearchosen = "2")
+asdf <- simchartdata(getPYID(input$playersfound, input$yearchosen), 
+             input$yearchosen,
+             battersimscore(getPYID(input$playersfound, input$yearchosen), input$yearchosen))
+               
