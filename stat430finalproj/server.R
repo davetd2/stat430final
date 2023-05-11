@@ -1,24 +1,14 @@
-#
-# This is the server logic of a Shiny web application. You can run the
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
 library(shinyjs)
 library(ggplot2)
 source("helper.R")
 
-# Define server logic required to draw a histogram
+
 function(input, output, session) {
   observeEvent(input$do, {
     req(input$player)
     updateSelectInput(inputId = "playersfound", choices = batting %>% filter(str_detect(name, input$player)) %>% select(name))
   })
-#batting[grep(input$player, batting$name),]$name)
   observeEvent(input$playersfound, {
     req(input$playersfound)
     if (input$playersfound == "NA") {
@@ -35,6 +25,7 @@ function(input, output, session) {
                                         battersimscore(getPYID(input$playersfound, input$yearchosen), input$yearchosen)),
                     aes(x = szn, y = sim_score, color = name)) +
       geom_line() + 
+      geom_vline(xintercept = as.integer(input$yearchosen)) +
       labs(x = "Season Number", y = "Similarity Score", title = "Similarity Score per season")
   })
   
@@ -45,6 +36,7 @@ function(input, output, session) {
                                battersimscore(getPYID(input$playersfound, input$yearchosen), input$yearchosen)),
            aes(x = szn, y = totalWAR, color = name)) +
       geom_line() + 
+      geom_vline(xintercept = as.integer(input$yearchosen)) +
       labs(x = "Season Number", y = "WAR per season", title = "WAR data per season")
   })
   
