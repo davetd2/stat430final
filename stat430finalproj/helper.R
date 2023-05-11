@@ -93,7 +93,7 @@ battersimscore <- function(p1, num) {
   if(P$POS == "P") {
     pitching %>% filter(playerID == p1 & szn == num) -> P
     result <- pitching %>%
-      filter(G>5 & szn == num) %>%
+      filter(szn == num) %>%
       mutate(sim_score = 1000 -
                (abs(W - P$W)) -
                (abs(L - P$L)/ 2) - 
@@ -111,7 +111,7 @@ battersimscore <- function(p1, num) {
       arrange(desc(sim_score))
   } else {
     result <- batting %>%
-      filter(G > 5 & szn == num) %>%
+      filter(szn == num) %>%
       mutate(
         sim_score = 1000 -
           (abs(G - P$G) / 20) -
@@ -170,6 +170,3 @@ simchartdata <- function(p1, num, df1) {
     return(dat)
   }
 }
-system.time(b <- simchartdata("aaronha01", 2, battersimscore("aaronha01", 2)))
-system.time(c <- simchartdata("goodedw01", 2, battersimscore("goodedw01", 2)))
-f <- pitching %>% filter(playerID == "fordru01")
